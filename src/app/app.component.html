@@ -1,0 +1,195 @@
+<div class="page-shell">
+  <header class="site-header">
+    <a class="brand" href="#inicio">
+      <span class="brand-mark">NM</span>
+      <span>{{ brand }}</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#productos">Productos</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#cotizacion">Cotizacion</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section" id="inicio">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Palomitas gourmet para regalar, vender o celebrar</p>
+        <h1>Sabores premium para pedidos por pieza y eventos con entrega lista.</h1>
+        <p class="hero-text">
+          Creamos palomitas artesanales con ingredientes de alta calidad, empaque cuidado y
+          cotizacion rapida para eventos pequenos, medianos y de gran formato.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="#cotizacion">Cotiza tu evento</a>
+          <a class="button button-secondary" href="#productos">Ver sabores</a>
+        </div>
+
+        <div class="hero-points">
+          <span>Venta por pieza</span>
+          <span>Mesas de snacks</span>
+          <span>Pedidos para eventos</span>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal reveal-delay">
+        <div class="hero-orbit orbit-one"></div>
+        <div class="hero-orbit orbit-two"></div>
+
+        <article class="showcase-card showcase-main">
+          <span class="mini-label">Sabor estrella</span>
+          <h2>{{ featuredProduct.flavor }}</h2>
+          <p>{{ featuredProduct.description }}</p>
+        </article>
+
+        <article class="showcase-card showcase-stat">
+          <strong>Desde 50 pzas</strong>
+          <span>Tarifa especial para eventos</span>
+        </article>
+
+        <article class="showcase-card showcase-note">
+          <strong>Entrega opcional</strong>
+          <span>Incluye cargo fijo a domicilio</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section intro-band reveal">
+      <p>
+        Informacion clara, sabores fotografiados y una calculadora simple para estimar tu pedido.
+        Esta landing no procesa compras en linea: esta pensada para informar y facilitar el primer contacto.
+      </p>
+    </section>
+
+    <section class="section" id="productos">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Productos</p>
+        <h2>Sabores que se ven bien en vitrina y funcionan aun mejor en eventos.</h2>
+        <p>
+          Configuracion editable: saladas en {{ saltyPrice | currency:'MXN':'symbol':'1.0-0' }} y dulces en
+          {{ sweetPrice | currency:'MXN':'symbol':'1.0-0' }} por pieza.
+        </p>
+      </div>
+
+      <div class="product-grid">
+        @for (product of products; track product.flavor) {
+          <article class="product-card reveal">
+            <img [src]="product.image" [alt]="'Palomitas sabor ' + product.flavor" />
+            <div class="product-copy">
+              <span class="product-category">{{ getCategoryLabel(product.category) }}</span>
+              <h3>{{ product.flavor }}</h3>
+              <p>{{ product.description }}</p>
+              <strong>{{ product.price | currency:'MXN':'symbol':'1.0-0' }} <span>por pieza</span></strong>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="section" id="servicios">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Servicios</p>
+        <h2>Atendemos desde pedidos chicos hasta producciones para eventos completos.</h2>
+      </div>
+
+      <div class="service-grid">
+        @for (service of services; track service.title) {
+          <article class="service-card reveal">
+            <span class="service-badge">{{ service.badge }}</span>
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.description }}</p>
+            <ul>
+              @for (detail of service.details; track detail) {
+                <li>{{ detail }}</li>
+              }
+            </ul>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="section contact-quote-grid">
+      <article class="contact-card reveal" id="contacto">
+        <div class="section-heading left">
+          <p class="eyebrow">Contacto</p>
+          <h2>Hablemos de tu pedido.</h2>
+        </div>
+
+        <div class="contact-list">
+          <div>
+            <span class="contact-label">Nombre de contacto</span>
+            <strong>{{ contact.person }}</strong>
+          </div>
+          <div>
+            <span class="contact-label">Correo electronico</span>
+            <a [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+          </div>
+          <div>
+            <span class="contact-label">WhatsApp</span>
+            <a class="button button-whatsapp" [href]="whatsappLink" target="_blank" rel="noopener">
+              Mandar mensaje por WhatsApp
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="quote-card reveal reveal-delay" id="cotizacion">
+        <div class="section-heading left">
+          <p class="eyebrow">Cotizacion</p>
+          <h2>Calcula un estimado para tu evento.</h2>
+        </div>
+
+        <form class="quote-form">
+          <label>
+            <span>Numero de palomitas</span>
+            <input
+              type="number"
+              name="quoteQuantity"
+              min="20"
+              step="1"
+              [(ngModel)]="quoteQuantity"
+              (blur)="normalizeQuantity()"
+            />
+          </label>
+
+          <label class="checkbox-row">
+            <input type="checkbox" name="quoteDelivery" [(ngModel)]="quoteDelivery" />
+            <span>Agregar entrega a domicilio</span>
+          </label>
+        </form>
+
+        <div class="quote-summary">
+          <div>
+            <span>Tarifa aplicada</span>
+            <strong>{{ quoteTierLabel }}</strong>
+          </div>
+          <div>
+            <span>Precio por pieza</span>
+            <strong>{{ unitPrice | currency:'MXN':'symbol':'1.0-0' }}</strong>
+          </div>
+          <div>
+            <span>Subtotal</span>
+            <strong>{{ subtotal | currency:'MXN':'symbol':'1.0-0' }}</strong>
+          </div>
+          <div>
+            <span>Entrega</span>
+            <strong>{{ deliveryFee | currency:'MXN':'symbol':'1.0-0' }}</strong>
+          </div>
+          <div class="quote-total">
+            <span>Total estimado</span>
+            <strong>{{ total | currency:'MXN':'symbol':'1.0-0' }}</strong>
+          </div>
+        </div>
+
+        <p class="quote-note">
+          El calculo es informativo y no reemplaza una cotizacion final. El precio puede ajustarse por sabor,
+          personalizacion y zona de entrega.
+        </p>
+      </article>
+    </section>
+  </main>
+</div>
