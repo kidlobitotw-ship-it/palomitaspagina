@@ -11,7 +11,7 @@ export const siteConfig = {
   companyName: 'Bee',
   contactName: 'Alejandrina Castro Maldonado',
   contactEmail: 'beepalomitas@gmail.com',
-  whatsappNumber: '5551078110',
+  whatsappNumber: '5569852630',
   productPrices: {
     salty: 30,
     sweet: 35
