@@ -145,26 +145,55 @@
 
         <form class="quote-form">
           <div class="quote-product-list">
-            @for (selection of quoteSelections; track selection.flavor) {
-              <label class="quote-product-row">
-                <div class="quote-product-copy">
-                  <strong>{{ selection.flavor }}</strong>
-                  <span>
-                    {{ getCategoryLabel(selection.category) }} ·
-                    {{ selection.unitPrice | currency:'MXN':'symbol':'1.0-0' }} por pieza
-                  </span>
-                </div>
+            <section class="quote-group">
+              <div class="quote-group-heading">
+                <strong>Palomitas saladas</strong>
+                <span>{{ saltyPrice | currency:'MXN':'symbol':'1.0-0' }} por pieza</span>
+              </div>
 
-                <input
-                  type="number"
-                  [name]="'quote-' + selection.flavor"
-                  min="0"
-                  step="1"
-                  [(ngModel)]="selection.quantity"
-                  (blur)="normalizeSelectionQuantity(selection)"
-                />
-              </label>
-            }
+              @for (selection of saltyQuoteSelections; track selection.flavor) {
+                <label class="quote-product-row">
+                  <div class="quote-product-copy">
+                    <strong>{{ selection.flavor }}</strong>
+                    <span>{{ selection.unitPrice | currency:'MXN':'symbol':'1.0-0' }} por pieza</span>
+                  </div>
+
+                  <input
+                    type="number"
+                    [name]="'quote-' + selection.flavor"
+                    min="0"
+                    step="1"
+                    [(ngModel)]="selection.quantity"
+                    (blur)="normalizeSelectionQuantity(selection)"
+                  />
+                </label>
+              }
+            </section>
+
+            <section class="quote-group">
+              <div class="quote-group-heading">
+                <strong>Palomitas dulces</strong>
+                <span>{{ sweetPrice | currency:'MXN':'symbol':'1.0-0' }} por pieza</span>
+              </div>
+
+              @for (selection of sweetQuoteSelections; track selection.flavor) {
+                <label class="quote-product-row">
+                  <div class="quote-product-copy">
+                    <strong>{{ selection.flavor }}</strong>
+                    <span>{{ selection.unitPrice | currency:'MXN':'symbol':'1.0-0' }} por pieza</span>
+                  </div>
+
+                  <input
+                    type="number"
+                    [name]="'quote-' + selection.flavor"
+                    min="0"
+                    step="1"
+                    [(ngModel)]="selection.quantity"
+                    (blur)="normalizeSelectionQuantity(selection)"
+                  />
+                </label>
+              }
+            </section>
           </div>
 
           <label class="checkbox-row">
