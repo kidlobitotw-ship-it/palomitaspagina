@@ -93,14 +93,6 @@ export class AppComponent {
     return this.quoteSelections.filter((selection) => selection.quantity > 0);
   }
 
-  get saltyQuoteSelections(): QuoteSelection[] {
-    return this.quoteSelections.filter((selection) => selection.category === 'salada');
-  }
-
-  get sweetQuoteSelections(): QuoteSelection[] {
-    return this.quoteSelections.filter((selection) => selection.category === 'dulce');
-  }
-
   get totalQuantity(): number {
     return this.selectedQuoteItems.reduce((total, selection) => total + selection.quantity, 0);
   }
