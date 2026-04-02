@@ -8,14 +8,17 @@ export type ProductConfig = {
 };
 
 export const siteConfig = {
+  
   companyName: 'Bee',
   contactName: 'Alejandrina Castro Maldonado',
   contactEmail: 'beepalomitas@gmail.com',
   whatsappNumber: '5569852630',
+  
   productPrices: {
     salty: 30,
     sweet: 35
   },
+
   products: [
     {
       flavor: 'Esquite',
@@ -88,6 +91,14 @@ export const siteConfig = {
       category: 'dulce',
       description: 'Sabor suave y vistoso con perfil dulce pensado para eventos sociales.',
       image: 'products/caramelo-clasico.svg'
+    },
+    {
+      flavor: 'Manzana Verde',
+      category: 'dulce',
+      description: 'Sabor suave y vistoso con perfil dulce pensado para eventos sociales.',
+      image: 'products/caramelo-clasico.svg'
     }
+
+
   ] satisfies ProductConfig[]
 } as const;
