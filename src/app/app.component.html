@@ -144,17 +144,28 @@
         </div>
 
         <form class="quote-form">
-          <label>
-            <span>Número de palomitas</span>
-            <input
-              type="number"
-              name="quoteQuantity"
-              min="20"
-              step="1"
-              [(ngModel)]="quoteQuantity"
-              (blur)="normalizeQuantity()"
-            />
-          </label>
+          <div class="quote-product-list">
+            @for (selection of quoteSelections; track selection.flavor) {
+              <label class="quote-product-row">
+                <div class="quote-product-copy">
+                  <strong>{{ selection.flavor }}</strong>
+                  <span>
+                    {{ getCategoryLabel(selection.category) }} ·
+                    {{ selection.unitPrice | currency:'MXN':'symbol':'1.0-0' }} por pieza
+                  </span>
+                </div>
+
+                <input
+                  type="number"
+                  [name]="'quote-' + selection.flavor"
+                  min="0"
+                  step="1"
+                  [(ngModel)]="selection.quantity"
+                  (blur)="normalizeSelectionQuantity(selection)"
+                />
+              </label>
+            }
+          </div>
 
           <label class="checkbox-row">
             <input type="checkbox" name="quoteDelivery" [(ngModel)]="quoteDelivery" />
@@ -164,15 +175,27 @@
 
         <div class="quote-summary">
           <div>
-            <span>Tarifa aplicada</span>
-            <strong>{{ quoteTierLabel }}</strong>
+            <span>Piezas saladas</span>
+            <strong>{{ saltyQuoteQuantity }}</strong>
           </div>
           <div>
-            <span>Precio por pieza</span>
-            <strong>{{ unitPrice | currency:'MXN':'symbol':'1.0-0' }}</strong>
+            <span>Piezas dulces</span>
+            <strong>{{ sweetQuoteQuantity }}</strong>
           </div>
           <div>
-            <span>Subtotal</span>
+            <span>Total de piezas</span>
+            <strong>{{ totalQuantity }}</strong>
+          </div>
+          <div>
+            <span>Subtotal saladas</span>
+            <strong>{{ saltySubtotal | currency:'MXN':'symbol':'1.0-0' }}</strong>
+          </div>
+          <div>
+            <span>Subtotal dulces</span>
+            <strong>{{ sweetSubtotal | currency:'MXN':'symbol':'1.0-0' }}</strong>
+          </div>
+          <div>
+            <span>Subtotal general</span>
             <strong>{{ subtotal | currency:'MXN':'symbol':'1.0-0' }}</strong>
           </div>
           <div>
@@ -185,8 +208,20 @@
           </div>
         </div>
 
+        <a
+          class="button button-whatsapp quote-whatsapp-button"
+          [class.button-disabled]="selectedQuoteItems.length === 0"
+          [href]="selectedQuoteItems.length === 0 ? null : quoteWhatsappLink"
+          [attr.aria-disabled]="selectedQuoteItems.length === 0"
+          target="_blank"
+          rel="noopener"
+        >
+          Enviar resumen por WhatsApp
+        </a>
+
         <p class="quote-note">
-          El cálculo es informativo y no reemplaza una cotización final. El precio puede ajustarse por sabor,
+          El cálculo es informativo y considera palomitas saladas en {{ saltyPrice | currency:'MXN':'symbol':'1.0-0' }}
+          y dulces en {{ sweetPrice | currency:'MXN':'symbol':'1.0-0' }} por pieza. El precio final puede ajustarse por
           personalización y zona de entrega.
         </p>
       </article>

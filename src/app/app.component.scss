@@ -180,6 +180,12 @@ main {
 	color: #f3fff8;
 }
 
+.button-disabled {
+	pointer-events: none;
+	opacity: 0.55;
+	box-shadow: none;
+}
+
 .hero-points {
 	display: flex;
 	flex-wrap: wrap;
@@ -443,6 +449,40 @@ main {
 	gap: 1rem;
 }
 
+.quote-product-list {
+	display: grid;
+	gap: 0.85rem;
+	max-height: 25rem;
+	overflow: auto;
+	padding-right: 0.35rem;
+}
+
+.quote-product-row {
+	grid-template-columns: minmax(0, 1fr) 7rem;
+	align-items: center;
+	gap: 1rem;
+	padding: 0.95rem 1rem;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.62);
+	border: 1px solid rgba(97, 45, 16, 0.08);
+}
+
+.quote-product-copy {
+	display: grid;
+	gap: 0.35rem;
+}
+
+.quote-product-copy strong {
+	font-size: 1rem;
+	color: var(--ink-900);
+}
+
+.quote-product-copy span {
+	color: var(--ink-600);
+	font-size: 0.88rem;
+	font-weight: 700;
+}
+
 .quote-form label {
 	display: grid;
 	gap: 0.55rem;
@@ -493,6 +533,11 @@ main {
 
 .quote-note {
 	margin-top: 1.1rem;
+}
+
+.quote-whatsapp-button {
+	width: 100%;
+	margin-top: 1rem;
 }
 
 .reveal {

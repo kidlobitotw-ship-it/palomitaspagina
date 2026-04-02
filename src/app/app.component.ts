@@ -11,6 +11,13 @@ type Product = {
   category: ProductCategory;
 };
 
+type QuoteSelection = {
+  flavor: string;
+  category: ProductCategory;
+  unitPrice: number;
+  quantity: number;
+};
+
 type Service = {
   title: string;
   description: string;
@@ -40,6 +47,13 @@ export class AppComponent {
     price: this.getCatalogPrice(product.category)
   }));
 
+  readonly quoteSelections: QuoteSelection[] = this.products.map((product) => ({
+    flavor: product.flavor,
+    category: product.category,
+    unitPrice: product.price,
+    quantity: 0
+  }));
+
   readonly featuredProduct = this.products[6] ?? this.products[0];
 
   readonly services: Service[] = [
@@ -65,7 +79,6 @@ export class AppComponent {
     }
   ];
 
-  quoteQuantity = 80;
   quoteDelivery = true;
 
   get saltyPrice(): number {
@@ -76,24 +89,43 @@ export class AppComponent {
     return this.config.productPrices.sweet;
   }
 
-  get unitPrice(): number {
-    if (this.quoteQuantity >= 250) {
-      return 24;
-    }
+  get selectedQuoteItems(): QuoteSelection[] {
+    return this.quoteSelections.filter((selection) => selection.quantity > 0);
+  }
 
-    if (this.quoteQuantity >= 120) {
-      return 26;
-    }
+  get totalQuantity(): number {
+    return this.selectedQuoteItems.reduce((total, selection) => total + selection.quantity, 0);
+  }
 
-    if (this.quoteQuantity >= 50) {
-      return 29;
-    }
+  get saltyQuoteQuantity(): number {
+    return this.selectedQuoteItems
+      .filter((selection) => selection.category === 'salada')
+      .reduce((total, selection) => total + selection.quantity, 0);
+  }
 
-    return 32;
+  get sweetQuoteQuantity(): number {
+    return this.selectedQuoteItems
+      .filter((selection) => selection.category === 'dulce')
+      .reduce((total, selection) => total + selection.quantity, 0);
+  }
+
+  get saltySubtotal(): number {
+    return this.selectedQuoteItems
+      .filter((selection) => selection.category === 'salada')
+      .reduce((total, selection) => total + selection.quantity * selection.unitPrice, 0);
+  }
+
+  get sweetSubtotal(): number {
+    return this.selectedQuoteItems
+      .filter((selection) => selection.category === 'dulce')
+      .reduce((total, selection) => total + selection.quantity * selection.unitPrice, 0);
   }
 
   get subtotal(): number {
-    return this.quoteQuantity * this.unitPrice;
+    return this.selectedQuoteItems.reduce(
+      (total, selection) => total + selection.quantity * selection.unitPrice,
+      0
+    );
   }
 
   get deliveryFee(): number {
@@ -104,26 +136,38 @@ export class AppComponent {
     return this.subtotal + this.deliveryFee;
   }
 
-  get quoteTierLabel(): string {
-    if (this.quoteQuantity >= 250) {
-      return 'Tarifa mayoreo para eventos grandes';
+  get quoteSummaryText(): string {
+    if (this.selectedQuoteItems.length === 0) {
+      return 'Aun no has seleccionado sabores para cotizar.';
     }
 
-    if (this.quoteQuantity >= 120) {
-      return 'Tarifa preferente para eventos medianos';
-    }
+    const selectedFlavors = this.selectedQuoteItems
+      .map(
+        (selection) =>
+          `${selection.flavor}: ${selection.quantity} pza${selection.quantity === 1 ? '' : 's'} x ${this.formatCurrency(selection.unitPrice)}`
+      )
+      .join('\n');
 
-    if (this.quoteQuantity >= 50) {
-      return 'Tarifa base para eventos';
-    }
-
-    return 'Tarifa minima para pedidos pequenos';
+    return [
+      'Hola, quiero cotizar palomitas con esta selección:',
+      selectedFlavors,
+      '',
+      `Total de piezas: ${this.totalQuantity}`,
+      `Subtotal saladas: ${this.formatCurrency(this.saltySubtotal)}`,
+      `Subtotal dulces: ${this.formatCurrency(this.sweetSubtotal)}`,
+      `Entrega: ${this.quoteDelivery ? this.formatCurrency(this.deliveryFee) : 'Sin entrega'}`,
+      `Total estimado: ${this.formatCurrency(this.total)}`
+    ].join('\n');
   }
 
   get whatsappLink(): string {
-    const message = encodeURIComponent(
-      'Hola, me interesa una cotización de palomitas gourmet para mi evento.'
-    );
+    const message = encodeURIComponent('Hola, me interesa una cotización de palomitas gourmet para mi evento.');
+
+    return `https://wa.me/${this.contact.whatsappNumber}?text=${message}`;
+  }
+
+  get quoteWhatsappLink(): string {
+    const message = encodeURIComponent(this.quoteSummaryText);
 
     return `https://wa.me/${this.contact.whatsappNumber}?text=${message}`;
   }
@@ -136,12 +180,21 @@ export class AppComponent {
     return category === 'dulce' ? 'Dulce' : 'Salada';
   }
 
-  normalizeQuantity(): void {
-    if (!Number.isFinite(this.quoteQuantity) || this.quoteQuantity < 20) {
-      this.quoteQuantity = 20;
+  normalizeSelectionQuantity(selection: QuoteSelection): void {
+    if (!Number.isFinite(selection.quantity) || selection.quantity < 0) {
+      selection.quantity = 0;
       return;
     }
 
-    this.quoteQuantity = Math.round(this.quoteQuantity);
+    selection.quantity = Math.round(selection.quantity);
+  }
+
+  private formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('es-MX', {
+      style: 'currency',
+      currency: 'MXN',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
   }
 }
