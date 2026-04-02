@@ -9,8 +9,8 @@ export type ProductConfig = {
 
 export const siteConfig = {
   companyName: 'Bee',
-  contactName: 'Alejandrina Castro',
-  contactEmail: 'hola@nubemaizgourmet.mx',
+  contactName: 'Alejandrina Castro Maldonado',
+  contactEmail: 'beepalomitas@gmail.com',
   whatsappNumber: '5551078110',
   productPrices: {
     salty: 30,
@@ -56,7 +56,7 @@ export const siteConfig = {
     {
       flavor: 'Caramelo',
       category: 'dulce',
-      description: 'Clasico dorado con acabado crujiente y un sabor amable que gusta a todos.',
+      description: 'Clásico dorado con acabado crujiente y un sabor amable que gusta a todos.',
       image: 'products/caramelo-clasico.svg'
     },
     {

@@ -45,22 +45,22 @@ export class AppComponent {
   readonly services: Service[] = [
     {
       title: 'Venta por pieza',
-      badge: 'Entrega rapida',
+      badge: 'Entrega rápida',
       description: 'Bolsas individuales listas para regalar, vender o acompañar una mesa de postres.',
       details: [
-        'Sabores de temporada y clasicos',
+        'Sabores de temporada y clásicos',
         'Presentacion individual premium',
         'Pedidos desde 6 piezas'
       ]
     },
     {
       title: 'Eventos y mayoreo',
-      badge: 'Cotizacion flexible',
+      badge: 'Cotización flexible',
       description: 'Armamos pedidos para bodas, corporativos, lanzamientos y celebraciones familiares.',
       details: [
         'Descuento por volumen',
-        'Etiquetado personalizado',
-        'Opcion con entrega a domicilio'
+        'Etiquetado personalizado con precio extra',
+        'Opción con entrega a domicilio'
       ]
     }
   ];
@@ -122,7 +122,7 @@ export class AppComponent {
 
   get whatsappLink(): string {
     const message = encodeURIComponent(
-      'Hola, me interesa una cotizacion de palomitas gourmet para mi evento.'
+      'Hola, me interesa una cotización de palomitas gourmet para mi evento.'
     );
 
     return `https://wa.me/${this.contact.whatsappNumber}?text=${message}`;

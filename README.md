@@ -36,6 +36,23 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+## Deploy on Vercel
+
+This project is ready to be deployed on Vercel as a static Angular application.
+
+The repository includes a `vercel.json` file with these settings:
+
+- `buildCommand`: `npm run build`
+- `outputDirectory`: `dist/gourmet-popcorn/browser`
+- SPA rewrite to `index.html` for client-side routes
+
+Steps:
+
+1. Import the repository into Vercel.
+2. Keep the default Node.js install step.
+3. Vercel will use the included `vercel.json` configuration automatically.
+4. Deploy.
+
 ## Running unit tests
 
 To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
