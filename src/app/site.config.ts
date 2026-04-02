@@ -98,7 +98,5 @@ export const siteConfig = {
       description: 'Sabor suave y vistoso con perfil dulce pensado para eventos sociales.',
       image: 'products/caramelo-clasico.svg'
     }
-
-
   ] satisfies ProductConfig[]
 } as const;
