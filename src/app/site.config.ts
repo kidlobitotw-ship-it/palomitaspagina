@@ -24,7 +24,7 @@ export const siteConfig = {
       flavor: 'Esquite',
       category: 'salada',
       description: 'Mezcla cremosa inspirada en elote callejero con toque citrico y chile suave.',
-      image: 'products/queso-chipotle.svg'
+      image: 'products/palomitas.jpg'
     },
     {
       flavor: 'Takis',
